@@ -30,7 +30,7 @@ andromeda:
 # Elastic APM
 elastic:
   apm:
-    enabled: true
+    enabled: false
     server-url: https://3932171ec801482a9fbe9924508ba392.apm.uksouth.azure.elastic-cloud.com:443
     service-name: SC-EVENT-PUBLISHER
     #TODO: avoid include tokens in the configuration
