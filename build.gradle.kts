@@ -99,10 +99,6 @@ tasks.withType<SonarTask> {
 //    suppressionFile = "${project.rootDir}/gradle/suppressions.xml"
 //}
 
-repositories {
-    mavenCentral()
-}
-
 spotless {
     java {
         googleJavaFormat()
