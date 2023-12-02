@@ -1,0 +1,39 @@
+== Runtime view
+
+=== Publish Event to Azure
+An external application can publish events tp Azure Event hub through this API, this would request will have to be extended with the required information for the events to land on Azure Event Hub and to correctly follow the wrapper guidelines set out by the architect team.
+
+
+[plantuml, target=runtime-view, format=png]
+....
+@startuml
+participant consumer [
+    =Consumer
+    ----
+    ""IGW""
+]
+
+participant "Publish API" as publishApi
+participant "Event Framework Library" as library
+participant "AzureEvent Hub" as hub
+
+
+== Handle Event Publish Request ==
+
+consumer -> publishApi: request
+activate publishApi
+
+publishApi -> library: build event
+activate library
+library -> publishApi
+deactivate library
+
+publishApi -> hub: publish event
+activate hub
+hub --> publishApi:
+deactivate hub
+
+publishApi --> consumer: response
+deactivate publishApi
+@enduml
+....

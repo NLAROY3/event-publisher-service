@@ -1,0 +1,17 @@
+springdoc:
+  swagger-ui:
+    path: /
+
+management:
+  server:
+    port: 8081
+
+spring:
+  application:
+    name: event-publisher-service
+  kafka:
+    bootstrap-servers: ${EventHubNamespace}.servicebus.windows.net:9093
+    producer:
+      properties:
+        linger.ms: 300
+        connections.max.idle.ms: 540000 # 9 min

@@ -1,0 +1,186 @@
+asyncapi: 2.0.0
+info:
+  title: Event Publisher API
+  version: 0.4.x
+  description: "This service is in charge of publishing events to Azure Event"
+channels:
+  sc-weu-dev-igw-events:
+    publish:
+      message:
+        $ref: '#/components/messages/IGWProductReady'
+components:
+  messages:
+    IGWProductReady:
+      payload:
+        $ref: '#/components/schemas/IGWProductReady'
+  schemas:
+    IGWProductReady:
+      allOf:
+        - $ref: '#/components/schemas/eventEnvelope'
+        - type: object
+          properties:
+            payload:
+              type: object
+              properties:
+                topic:
+                  type: string
+                  examples:
+                    - InformationGateway
+                  description: "The name of the topic to send the info to. Deprecated: This is replaced by the actual topic, and this doesn't have to match up with the reality"
+                  deprecated: true
+                eventType:
+                  type: string
+                  examples:
+                    - IGW_PRODUCT_READY
+                  description: "The type of the event. Deprecated: this is replaced with the value that exists in the envelope."
+                  deprecated: true
+                technicalInformation:
+                  type: object
+                  properties:
+                    consumerApp:
+                      type: string
+                      examples:
+                        - O_AP_ARCRI
+                      description: ??
+                    correlationId:
+                      type: string
+                      examples:
+                        - MonValCREDITREFORM
+                      description: "The Atradius Correlation ID. Depricated: replaced by the correlationId from the envelope."
+                      deprecated: true
+                    eventTimestamp:
+                      type: string
+                      format: date-time
+                      description: "The datetimestamp of the event in ISO 8601 format. Deprecated: is replaced by the eventDateTime"
+                      deprecated: true
+                    eventCounter:
+                      type: integer
+                      description: ??
+                keyAttributes:
+                  type: object
+                  properties:
+                    product:
+                      type: string
+                      examples:
+                        - CREDITREFORM_FULL
+                      description: ??
+                    igwRequestIdentifier:
+                      description: ??
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          provider:
+                            type: string
+                            examples:
+                              - 125
+                            description: ??
+                          identifierType:
+                            type: string
+                            examples:
+                              - PROV_INT_ID
+                            description: ??
+                          identifierValue:
+                            type: string
+                            examples:
+                              - 03453452013682
+                            description: ??
+                    maxAge:
+                      type: string
+                      format: date-time
+                      description: ??
+                informationLocation:
+                  type: object
+                  properties:
+                    productUrl:
+                      type: string
+                      format: uri
+                      examples:
+                        - https://desaigw.iberinform.es/api/v1/product/1152%22
+                    rawData:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          rawDataUrl:
+                            type: string
+                            format: uri
+                            examples:
+                              - https://desaigw.iberinform.es/api/v1/dataset/2386/raw%22
+                          updated:
+                            type: string
+                            format: date-time
+                          type:
+                            type: string
+                            examples:
+                              - SOAP
+                          format:
+                            type: string
+                            examples:
+                              - XML
+                error:
+                  type: object
+                  examples:
+                    - null
+    eventEnvelope:
+      type: object
+      properties:
+        event_name:
+          type: string
+          description: The events name
+          examples:
+            - InformationGateway
+        event_uuid:
+          type: string
+          format: uuid
+          examples:
+            - 550e8400-e29b-41d4-a716-446655440000
+        event_domain:
+          type: string
+          description: Business domain the event belongs to
+          examples:
+            - IGW Products
+        event_type:
+          type: string
+          description: Type of the event
+          examples:
+            - InformationGateway
+        event_subtype:
+          type: string
+          description: Subtype of the event
+          examples:
+            - Product Ready
+        event_datetime:
+          type: string
+          format: date-time
+          description: the date the event was created. In an ISO 8601 string format
+          examples:
+            - 2023‐08‐31T14:45:53Z
+        event_origin_id:
+          type: string
+          description: Identifier of the application creating the event
+          examples:
+            - IGW_API
+        envelope_version:
+          type: string
+          description: Version of the envelope that has been used
+          examples:
+            - v1
+        object_type:
+          type: string
+          description: type of the object the event occurred for
+          examples:
+            - Product
+        object_id:
+          type: string
+          description: id of the object the event occured for
+          examples:
+            - 123
+        correlation_id:
+          type: string
+          description: Correlation id of the event, used for tracing purposes
+          examples:
+            - MonValCREDITREFORM
+        resources:
+          type: object
+          description: JSON with all IDs of other objects associated (FKs) with the event

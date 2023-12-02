@@ -1,0 +1,37 @@
+#spring:
+#  kafka:
+#    bootstrap-servers: 127.0.0.1:29092
+#    security:
+#      protocol: PLAINTEXT
+
+spring:
+  kafka:
+    bootstrap-servers: sc-weu-sit-eventhub-ns.servicebus.windows.net:9093
+    security:
+      protocol: SASL_SSL
+    properties:
+      sasl.mechanism: OAUTHBEARER
+      sasl.jaas.config: org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;
+      sasl.login.callback.handler.class: com.atradius.sc.eventpublisher.auth.CustomAuthenticateCallbackHandler
+atradius:
+  igw:
+    publish:
+      topic-name: sc-weu-dev-igw-events
+
+andromeda:
+  auth:
+    permit-all: /actuator/**
+  environment: sit
+  oidm:
+    enabled: true
+    certificatesDir: /jre/lib/security
+    jwt:
+      domain-name: PROD_JET_WebGateDomain
+      validation:
+        url: https://login-prd.atradiusnet.com:443/oauth2/rest/token/info
+
+# Elastic APM
+elastic:
+  apm:
+    enabled: false
+

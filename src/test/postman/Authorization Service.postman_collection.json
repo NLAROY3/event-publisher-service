@@ -1,0 +1,216 @@
+{
+	"info": {
+		"_postman_id": "2cd51aaa-0caf-432d-a813-71e7621832a7",
+		"name": "Authorization Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29881156"
+	},
+	"item": [
+		{
+			"name": "Get Token DEV",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"ACCESS_TOKEN\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic R0xTU0RFMTphb2dvYWZzaXdpMjlydHE="
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "CLIENT_CREDENTIALS",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "DEV_TokenPOC_RS.sharedcomponents",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://login-dev.atradiusnet.com/oauth2/rest/token?iddomain=DEV_JET_WebGateDomain",
+					"protocol": "https",
+					"host": [
+						"login-dev",
+						"atradiusnet",
+						"com"
+					],
+					"path": [
+						"oauth2",
+						"rest",
+						"token"
+					],
+					"query": [
+						{
+							"key": "iddomain",
+							"value": "DEV_JET_WebGateDomain"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Token PRD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"ACCESS_TOKEN\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic UFJPRF9TUFJfT0lEQ1dlYkdhdGVJRDpKR2tzbGJsdzkzNTUzZ3NnLWF0"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "CLIENT_CREDENTIALS",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "PROD_SC_OIDCWebGateRS.SCPrd",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://login-prd.atradiusnet.com:443/oauth2/rest/token?iddomain=PROD_JET_WebGateDomain",
+					"protocol": "https",
+					"host": [
+						"login-prd",
+						"atradiusnet",
+						"com"
+					],
+					"port": "443",
+					"path": [
+						"oauth2",
+						"rest",
+						"token"
+					],
+					"query": [
+						{
+							"key": "iddomain",
+							"value": "PROD_JET_WebGateDomain"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticatate Token DEV",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-OAUTH-IDENTITY-DOMAIN-NAME",
+						"value": "DEV_JET_WebGateDomain",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://login-dev.atradiusnet.com/oauth2/rest/token/info?access_token={{ACCESS_TOKEN}}",
+					"protocol": "https",
+					"host": [
+						"login-dev",
+						"atradiusnet",
+						"com"
+					],
+					"path": [
+						"oauth2",
+						"rest",
+						"token",
+						"info"
+					],
+					"query": [
+						{
+							"key": "access_token",
+							"value": "{{ACCESS_TOKEN}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticatate Token PRD",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-OAUTH-IDENTITY-DOMAIN-NAME",
+						"value": "PROD_JET_WebGateDomain",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "https://login-prd.atradiusnet.com/oauth2/rest/token/info?access_token={{ACCESS_TOKEN}}",
+					"protocol": "https",
+					"host": [
+						"login-prd",
+						"atradiusnet",
+						"com"
+					],
+					"path": [
+						"oauth2",
+						"rest",
+						"token",
+						"info"
+					],
+					"query": [
+						{
+							"key": "access_token",
+							"value": "{{ACCESS_TOKEN}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

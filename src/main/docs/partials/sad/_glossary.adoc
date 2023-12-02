@@ -1,0 +1,37 @@
+== Glossary
+
+===	Definition, acronyms and abbreviations
+[cols="e,2e" options="header"]
+|===
+|Term |Definition
+
+|Information Gateway
+|A new external information provider.
+
+|Consumer
+|Services that interact with the Event Publish Api.
+
+|Event Publish request
+|The call to this API with the intent of an event being published to Azure Event Hub that a consumer initiates/receives.
+
+|Event
+|An occurrence in the environment that has to be shared to other applications.
+|===
+
+===	References
+[cols="e,2e" options="header"]
+|===
+|Term |Definition
+
+|Microsoft Azure
+|https://azure.microsoft.com/en-us/
+
+|Kubernetes
+|https://kubernetes.io/
+
+|Azure Event Hub
+|https://learn.microsoft.com/en-us/azure/event-hubs/
+
+|GitOps
+|https://about.gitlab.com/topics/gitops/
+|===

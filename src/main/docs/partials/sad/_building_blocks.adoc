@@ -1,0 +1,79 @@
+== Building Block View
+
+[plantuml, target=building-blocks, format=svg]
+---------
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_LANDSCAPE()
+
+Boundary(publishAPIBoundary, "Event Publish API") {
+    Component(controller, "Controller", "RestController")
+    Component(eventService, "EventPublishService", "Service")
+    Component(eventFramework, "Event Framework Library", "Library")
+
+
+    Rel_R(controller, eventService, "")
+    Rel(eventService, eventFramework, "")
+
+    Boundary(azureBoundary, "Azure Cloud"){
+        Component(eventHub, "Azure Event Hub", "Cloud service")
+    }
+
+    Rel(eventService, eventHub, "kafka")
+}
+---------
+
+*Rationale*: Zooming in on the components that handle the lookup/search capabilities within the Query Processor.
+
+=== The flow
+[cols="e,2e" options="header"]
+|===
+|Element |Description
+
+|Controller
+|Validates the event information passed Publish API and sends it on to the Event Publish Service.
+
+|Event Publish Service
+|Uses functionalities from the library to wrap the event, and send it to Azure Event Hub
+
+|Event Framework Library
+|Holds the wrapper object and configuration for connecting to Azure Event Hub.
+
+|Azure Event Hub
+|A Managed Service from Azure, this is a event broker, supporting the Kafka protocol.
+|===
+
+==== Controller
+*Intent/Responsibility*: Validate the event publish request made to the API, and handles the communication back to the requester.
+
+*Interfaces*:
+[cols="e,2e" options="header"]
+|===
+|Interface |Description
+
+|publish
+|Validate the event publish request made to the API, and handles the communication back to the requester.
+|===
+
+*Quality of Service*: contains handling mechanisms for validating the request, and communicating to the requester.
+
+==== Event Publish Service
+*Intent/Responsibility*: Uses functionalities from the library to wrap the event, and send it to Azure Event Hub.
+
+*Interfaces*:
+[cols="e,2e" options="header"]
+|===
+|Interface |Description
+
+|publish
+|Extends publish request and send the event to Azure Event Hub.
+|===
+
+*Quality of Service*: contains business logic to correctly extend the request, and handle communication with Azure Event Hub.
+
+==== Event Framework Library
+*Intent/Responsibility*: Makes interacting with Azure Event Hub easier, and provides the wrapper object, and a way to build that.
+
+*Quality of Service*: Usage of the Library should be developer friendly.

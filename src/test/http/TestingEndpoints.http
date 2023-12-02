@@ -1,0 +1,71 @@
+### Create new event
+POST {{url}}/v1/publish-igw-event
+Content-Type: application/json
+
+{
+  "event_name": "My IGW event {{$random.integer}}",
+  "event_uuid": "{{$random.uuid}}",
+  "event_domain": "IGW Things",
+  "event_type": "IGW create test",
+  "event_subtype": "CREATE",
+  "event_datetime": "{{$isoTimestamp}}",
+  "event_origin_id": "IGW",
+  "object_type": "CLD",
+  "object_id": "{{$random.integer}}",
+  "correlation_id": "{{$random.uuid}}",
+  "resources": {},
+  "payload": {
+    "topic": "InformationGateway",
+    "eventType": "IGW_PRODUCT_READY",
+    "technicalInformation": {
+      "consumerApp": "O_AP_ARCRI",
+      "correlationId": "MonValCREDITREFORM",
+      "eventTimestamp": "2019-08-24T14:15:22Z",
+      "eventCounter": 0
+    },
+    "keyAttributes": {
+      "product": "CREDITREFORM_FULL",
+      "igwRequestIdentifier": [
+        {
+          "provider": 125,
+          "identifierType": "PROV_INT_ID",
+          "identifierValue": "03453452013682"
+        }
+      ],
+      "maxAge": "2019-08-24T14:15:22Z"
+    },
+    "informationLocation": {
+      "productUrl": "https://desaigw.iberinform.es/api/v1/product/1152%22",
+      "rawData": [
+        {
+          "rawDataUrl": "https://desaigw.iberinform.es/api/v1/dataset/2386/raw%22",
+          "updated": "2019-08-24T14:15:22Z",
+          "type": "SOAP",
+          "format": "XML"
+        }
+      ]
+    },
+    "error": null
+  }
+}
+
+### Testing error thrown
+POST {{url}}/v1/publish-igw-event
+Content-Type: application/json
+
+{
+  "event_name": "My IGW event {{$random.integer}}",
+  "event_uuid": "{{$random.uuid}}",
+  "event_domain": "IGW Things",
+  "event_type": "IGW create test",
+  "event_subtype": "CREATE",
+  "event_datetime": "{{$isoTimestamp}}",
+  "event_origin_id": "IGW",
+  "object_type": "CLD",
+  "object_id": "{{$random.integer}}",
+  "correlation_id": "{{$random.uuid}}",
+  "resources": "",
+  "payload": {
+    "igwMessage": "Testing Message"
+  }
+}

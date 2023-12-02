@@ -1,0 +1,81 @@
+== Deployment view
+
+Deployment of the Service Oriented Architecture is defined in a dedicated GitOps repository in GitHub.
+Azure Pipelines are triggered by commits and merging pull request on GitHub application repositories,
+after which application artifacts are stored as Docker images in Azure Container Registry.
+
+=== Main, Release, Development and feature branches
+Builds from these branches are immediately deployed to the Development environment, by triggering a Helm deployment from the pipeline.
+
+=== Main Branch
+Builds on this branch trigger a release of the application.
+
+=== Deploying a version to SIT, UAT and PROD
+GitOps definitions are defined a GitHub repository. An agent on the Kubernetes cluster poll for changes in these definitions and pull any changes.
+When newer versions are defined they are automatically pulled from the Container Registry.
+
+[plantuml, target=deployment-view, format=png]
+....
+frame deployments as "Deployment overview" {
+
+    node git [
+      «version management»
+      <b>GitHub
+
+      ----
+      - store source code
+      - store environment definitions (GitOps)
+    ]
+
+    node devops [
+      «continues integration»
+      <b>Azure Pipelines
+
+      ----
+      - build artifacts
+    ]
+
+    node acr [
+      «artifact storage»
+      <b>Azure Container Registry
+
+      ----
+      - immutable artifacts
+    ]
+
+    agent gitOps as "GitOps"
+
+
+    node stageDEV [
+      «kubernetes cluster»
+      <b>DEV env.
+    ]
+    node stageSIT [
+      «kubernetes cluster»
+      <b>SIT env.
+    ]
+    node stageUAT [
+      «kubernetes cluster»
+      <b>UAT env.
+    ]
+    node stagePROD [
+      «kubernetes cluster»
+      <b>PROD env.
+    ]
+
+    git -> devops: "trigger builds"
+    devops -> acr: "store artifacts"
+    devops --> stageDEV: "deploy definition"
+
+    gitOps --> git: poll definition
+
+    stageSIT --> gitOps
+    stageUAT --> gitOps
+    stagePROD --> gitOps
+
+    acr <.. stageDEV: "fetch"
+    acr <.. stageSIT: "fetch"
+    acr <.. stageUAT: "fetch"
+    acr <.. stagePROD: "fetch"
+}
+....

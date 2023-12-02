@@ -1,0 +1,34 @@
+== Introduction & goals
+This document describes the key requirements, quality goals and driving forces that must be considered when implementing the software architecture and developing the system.
+
+=== Requirements overview
+The Event Publishing api's goal is to provide other applications, which can't access eventhub directly, the ability to push events onto eventhub.
+
+The service would have an endpoint for each type of event. They should be highly limited as it's a far better decision to connect to eventhub directly rather then go though a Rest API, as for example error handling will become easier.
+
+The API should manage sending the events directly and communicate back any errors that have occurred.
+
+===	Quality goals
+
+==== Suitability
+The service has to publish the events to eventhub to the best of it's abilities, however if any error occurred that can be fixed by the caller it has to return these errors.
+
+==== Availability
+The service must be highly available since it is a core functionality for other services within the company and it's customers.
+This goal covers the sections **Reliability** and **Performance Effiency**. The service must be highly available, **fault-tolerant** and **recoverable**.
+The goal includes extra focus on **time behaviour**, **resource utilization** and **capacity**. More information on how this will be implemented is described in sections _Runtime View_ and _Quality Requirements_.
+
+==== Compatibility
+The service will be a REST API, providing a way to publish events for applications that are otherwise unable to connect to Kafka/EventHub.
+
+==== Usability
+To improve **recognizability** with other services, and the ability to understand (**learnability**) the API, the API conforms to the Atradius API Standards (TODO: link to Confluence).
+Search requests input must be validated and in case of **user errors** and provide enough detail to the consumer to be able to fix issues. The service must be implemented with Postel's law in mind, which states: "be conservative in what you do, be liberal in what you accept from others".
+
+
+===	Stakeholders
+[options="header",cols="1,1,2,2"]
+|===
+|Role/Name|Project|Contact|Expectations
+| Product Owner | Arcade | JuanAntonio.BRENA@atradius.com | Proper API providing publish endpoint.
+|===

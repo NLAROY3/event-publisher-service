@@ -1,0 +1,18 @@
+== Solution strategy
+
+[cols="e,2,1" options="header"]
+|===
+|Goal/Requirement |Architectural approach | Details
+
+|Correctness and completeness
+|The events published to Azure Event hub must be in the correct envelope and should be filled completely.
+|TBD
+
+|Compatibility
+|Since this is new functionality is should be implementable for the current stack.
+|The API will be defined following REST standards.
+
+|Availability
+|Use managed and scalable (micro)services. Microservices must be resilient.
+|n.a.
+|===

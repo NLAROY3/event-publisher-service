@@ -1,0 +1,28 @@
+= Andromeda Event Framework Publish API : Software Architecture Design
+ifndef::imagesdir[:imagesdir: images]
+:title-logo-image: image:atradius-logo.png[align=center,scaledwidth=40%]
+
+:chapter-signifier:
+:sectnums:
+
+include::partials/sad/_intro.adoc[]
+
+include::partials/sad/_constraints.adoc[]
+
+include::partials/sad/_system_scope.adoc[]
+
+include::partials/sad/_solution_strategy.adoc[]
+
+include::partials/sad/_building_blocks.adoc[]
+
+include::partials/sad/_runtime.adoc[]
+
+include::partials/sad/_deployment.adoc[]
+
+include::partials/sad/_cross_cutting.adoc[]
+
+include::partials/sad/_risks_debts.adoc[]
+
+include::partials/sad/_glossary.adoc[]
+
+:sectnums!:

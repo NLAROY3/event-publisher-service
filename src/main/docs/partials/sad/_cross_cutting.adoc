@@ -1,0 +1,6 @@
+== Cross-cutting concepts
+
+=== Observability
+Logging from AKS will be sent to Elastic automatically when you use the Common Docker image.
+The platform team maintains a Spring library to push metrics to Elastic APM.
+https://github.com/AtradiusGroup/andromeda-sdk-observability-starter[]

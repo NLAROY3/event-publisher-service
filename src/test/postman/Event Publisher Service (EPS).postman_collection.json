@@ -1,0 +1,136 @@
+{
+	"info": {
+		"_postman_id": "1c4d3c3c-7353-49f7-b923-73df2dff9971",
+		"name": "Event Publisher Service (EPS)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29881156"
+	},
+	"item": [
+		{
+			"name": "Create new event (without token)",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"event_name\": \"My IGW event {{$randomUUID}}\",\r\n  \"event_uuid\": \"{{$randomUUID}}\",\r\n  \"event_domain\": \"IGW Things\",\r\n  \"event_type\": \"IGW create test\",\r\n  \"event_subtype\": \"CREATE\",\r\n  \"event_datetime\": \"{{$isoTimestamp}}\",\r\n  \"event_origin_id\": \"IGW\",\r\n  \"object_type\": \"CLD\",\r\n  \"object_id\": \"{{$randomInt}}\",\r\n  \"correlation_id\": \"{{$randomUUID}}\",\r\n  \"resources\": {},\r\n  \"payload\": {\r\n    \"topic\": \"InformationGateway\",\r\n    \"eventType\": \"IGW_PRODUCT_READY\",\r\n    \"technicalInformation\": {\r\n      \"consumerApp\": \"O_AP_ARCRI\",\r\n      \"correlationId\": \"MonValCREDITREFORM\",\r\n      \"eventTimestamp\": \"2019-08-24T14:15:22Z\",\r\n      \"eventCounter\": 0\r\n    },\r\n    \"keyAttributes\": {\r\n      \"product\": \"CREDITREFORM_FULL\",\r\n      \"igwRequestIdentifier\": [\r\n        {\r\n          \"provider\": 125,\r\n          \"identifierType\": \"PROV_INT_ID\",\r\n          \"identifierValue\": \"03453452013682\"\r\n        }\r\n      ],\r\n      \"maxAge\": \"2019-08-24T14:15:22Z\"\r\n    },\r\n    \"informationLocation\": {\r\n      \"productUrl\": \"https://desaigw.iberinform.es/api/v1/product/1152%22\",\r\n      \"rawData\": [\r\n        {\r\n          \"rawDataUrl\": \"https://desaigw.iberinform.es/api/v1/dataset/2386/raw%22\",\r\n          \"updated\": \"2019-08-24T14:15:22Z\",\r\n          \"type\": \"SOAP\",\r\n          \"format\": \"XML\"\r\n        }\r\n      ]\r\n    },\r\n    \"error\": null\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{publish-event-api-url}}/v1/publish-igw-event",
+					"host": [
+						"{{publish-event-api-url}}"
+					],
+					"path": [
+						"v1",
+						"publish-igw-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new event (with token)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{ACCESS_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"event_name\": \"My IGW event {{$randomUUID}}\",\r\n  \"event_uuid\": \"{{$randomUUID}}\",\r\n  \"event_domain\": \"IGW Things\",\r\n  \"event_type\": \"IGW create test\",\r\n  \"event_subtype\": \"CREATE\",\r\n  \"event_datetime\": \"{{$isoTimestamp}}\",\r\n  \"event_origin_id\": \"IGW\",\r\n  \"object_type\": \"CLD\",\r\n  \"object_id\": \"{{$randomInt}}\",\r\n  \"correlation_id\": \"{{$randomUUID}}\",\r\n  \"resources\": {},\r\n  \"payload\": {\r\n    \"topic\": \"InformationGateway\",\r\n    \"eventType\": \"IGW_PRODUCT_READY\",\r\n    \"technicalInformation\": {\r\n      \"consumerApp\": \"O_AP_ARCRI\",\r\n      \"correlationId\": \"MonValCREDITREFORM\",\r\n      \"eventTimestamp\": \"2019-08-24T14:15:22Z\",\r\n      \"eventCounter\": 0\r\n    },\r\n    \"keyAttributes\": {\r\n      \"product\": \"CREDITREFORM_FULL\",\r\n      \"igwRequestIdentifier\": [\r\n        {\r\n          \"provider\": 125,\r\n          \"identifierType\": \"PROV_INT_ID\",\r\n          \"identifierValue\": \"03453452013682\"\r\n        }\r\n      ],\r\n      \"maxAge\": \"2019-08-24T14:15:22Z\"\r\n    },\r\n    \"informationLocation\": {\r\n      \"productUrl\": \"https://desaigw.iberinform.es/api/v1/product/1152%22\",\r\n      \"rawData\": [\r\n        {\r\n          \"rawDataUrl\": \"https://desaigw.iberinform.es/api/v1/dataset/2386/raw%22\",\r\n          \"updated\": \"2019-08-24T14:15:22Z\",\r\n          \"type\": \"SOAP\",\r\n          \"format\": \"XML\"\r\n        }\r\n      ]\r\n    },\r\n    \"error\": null\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{publish-event-api-url}}/v1/publish-igw-event",
+					"host": [
+						"{{publish-event-api-url}}"
+					],
+					"path": [
+						"v1",
+						"publish-igw-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new event Faulty",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"event_name\": \"My IGW event {{$randomUUID}}\",\r\n  \"event_uuid\": \"{{$randomUUID}}\",\r\n  \"event_domain\": \"IGW Things\",\r\n  \"event_type\": \"IGW create test\",\r\n  \"event_subtype\": \"CREATE\",\r\n  \"event_datetime\": \"{{$isoTimestamp}}\",\r\n  \"event_origin_id\": \"IGW\",\r\n  \"object_type\": \"CLD\",\r\n  \"object_id\": \"{{$randomInt}}\",\r\n  \"correlation_id\": \"{{$randomUUID}}\",\r\n  \"resources\": \"\",\r\n  \"payload\": {\r\n    \"topic\": \"InformationGateway\",\r\n    \"eventType\": \"IGW_PRODUCT_READY\",\r\n    \"technicalInformation\": {\r\n      \"consumerApp\": \"O_AP_ARCRI\",\r\n      \"correlationId\": \"MonValCREDITREFORM\",\r\n      \"eventTimestamp\": \"2019-08-24T14:15:22Z\",\r\n      \"eventCounter\": 0\r\n    },\r\n    \"keyAttributes\": {\r\n      \"product\": \"CREDITREFORM_FULL\",\r\n      \"igwRequestIdentifier\": [\r\n        {\r\n          \"provider\": 125,\r\n          \"identifierType\": \"PROV_INT_ID\",\r\n          \"identifierValue\": \"03453452013682\"\r\n        }\r\n      ],\r\n      \"maxAge\": \"2019-08-24T14:15:22Z\"\r\n    },\r\n    \"informationLocation\": {\r\n      \"productUrl\": \"https://desaigw.iberinform.es/api/v1/product/1152%22\",\r\n      \"rawData\": [\r\n        {\r\n          \"rawDataUrl\": \"https://desaigw.iberinform.es/api/v1/dataset/2386/raw%22\",\r\n          \"updated\": \"2019-08-24T14:15:22Z\",\r\n          \"type\": \"SOAP\",\r\n          \"format\": \"XML\"\r\n        }\r\n      ]\r\n    },\r\n    \"error\": null\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{publish-event-api-url}}/v1/publish-igw-event",
+					"host": [
+						"{{publish-event-api-url}}"
+					],
+					"path": [
+						"v1",
+						"publish-igw-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Actuator",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{publish-event-api-url}}/actuator",
+					"host": [
+						"{{publish-event-api-url}}"
+					],
+					"path": [
+						"actuator"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,47 @@
+spring:
+  kafka:
+    bootstrap-servers: ${EventHubNamespace}.servicebus.windows.net:9093
+    security:
+      protocol: SASL_SSL
+    properties:
+      sasl.mechanism: OAUTHBEARER
+      sasl.jaas.config: org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;
+      sasl.login.callback.handler.class: com.atradius.sc.eventpublisher.auth.CustomAuthenticateCallbackHandler
+
+atradius:
+  igw:
+    publish:
+      topic-name: sc-weu-dev-igw-events
+  kafka:
+    bootstrap-servers: ${EventHubNamespace}.servicebus.windows.net:9093
+
+andromeda:
+  auth:
+    permit-all: /actuator/**
+  environment: sit
+  oidm:
+    enabled: true
+    certificatesDir: /jre/lib/security
+    jwt:
+      domain-name: ${ATRADIUS_OIDM_DOMAIN_NAME}
+      validation:
+        url: ${ATRADIUS_OIDM_VALIDATION_TOKEN_URL}
+
+# Elastic APM
+elastic:
+  apm:
+    enabled: true
+    server-url: https://3932171ec801482a9fbe9924508ba392.apm.uksouth.azure.elastic-cloud.com:443
+    service-name: SC-EVENT-PUBLISHER
+    #TODO: avoid include tokens in the configuration
+    secret-token: MhRHz75B0440z7Q29w
+    environment: sit
+    application-packages: com.atradius
+    log-level: INFO
+
+logging:
+  level:
+    root: INFO
+    com.atradius.sc.eventpublisher: TRACE
+    com.atradius.boot.web.auth: TRACE
+    org.apache.kafka: TRACE

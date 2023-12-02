@@ -1,0 +1,92 @@
+== System scope and context
+
+=== Business context
+Different types of actors will interact with the service, and it will interact with external services. An example of an ‘user’ actor are integration developers. An example of a ‘service’ actor is IGW. It will pass the event provided from the actors to Azure Event Hub.
+
+[plantuml, target=business-context, format=svg]
+---------
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+
+!include FONTAWESOME/users.puml
+!include FONTAWESOME/server.puml
+!include FONTAWESOME/bezier_curve.puml
+!include FONTAWESOME/database.puml
+!include FONTAWESOME/layer_group.puml
+
+LAYOUT_LEFT_RIGHT()
+
+Person(users, "Users", "Integration Developers", $sprite="users")
+System_Boundary(systemBoundary, "Event Publish API") {
+    System(publishApi, "Publish API")
+}
+System(eventhub, "Azure Event Hub", "Kafka", $sprite="layer_group")
+System(igw, "IGW", "Information Gateway", $sprite="bezier_curve")
+
+Rel(users, publishApi, "HTML", "http")
+Rel(publishApi, eventhub, "Kafka", "tcp")
+Rel(igw, publishApi, "REST API", "http")
+---------
+
+
+=== Technical context
+The service is set up as a service oriented architecture running on Kubernetes. Kubernetes allows us to focus on building and improving on the application by using its built-in components and characteristics. Running Kubernetes on a Cloud platform like Azure allows using integrated cloud platform services like event hub without having to maintenance those services.
+
+[plantuml, target=technical-context, format=svg]
+---------
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!define DEVICONS2 https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons2
+!define STDLIB https://raw.githubusercontent.com/plantuml-stdlib/gilbarbara-plantuml-sprites/v1.1/sprites
+
+!include FONTAWESOME/users.puml
+!include FONTAWESOME/server.puml
+!include FONTAWESOME/bezier_curve.puml
+!include FONTAWESOME/database.puml
+!include FONTAWESOME/layer_group.puml
+!includeurl STDLIB/swagger.puml
+!includeurl STDLIB/spring-icon.puml
+
+LAYOUT_LEFT_RIGHT()
+
+AddRelTag("dependency", $textColor="orange", $lineColor="orange", $lineStyle = DashedLine())
+
+Person(users, "Users", "Integration Developers", $sprite="users")
+System(igw, "IGW", "Information Gateway", $sprite="bezier_curve")
+Boundary(systemBoundary, "Kubernetes Cluster") {
+    Container(swaggerUI, "Swagger UI", "", $sprite="swagger,color=#71f496")
+    Container(publishAPI, "Publish API", "Spring Application", $sprite="spring-icon,color=#71f496")
+}
+System(eventhub, "Azure Event Hub", "Kafka", $sprite="layer_group")
+
+Rel(users, swaggerUI, "HTML", "http")
+Rel_L(swaggerUI, publishAPI, "REST", "http")
+Rel(igw, publishAPI, "REST API", "http")
+Rel(publishAPI, eventhub, "Kafka", "tcp")
+---------
+
+[cols="e,2e" options="header"]
+|===
+|Element |Description
+
+|«person» Users
+|Integration developers are provided a HTML (Swagger UI) graphical user interface
+
+|«system» IGW
+|Consumers (applications) that publishes events using the REST API.
+
+|Kubernetes cluster
+|A Managed Kubernetes cluster running on Azure
+
+|«container» Swagger UI
+|An HTML graphical user interface
+
+|«container» Publish API
+|The REST API for the _Consumers_ and _Users_. It will validate the event before publishing.
+
+|«system» Azure Event Hub
+|Is a managed application from Azure for handling events, it also supports the Kafka Protocol.
+|===

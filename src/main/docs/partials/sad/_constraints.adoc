@@ -1,0 +1,25 @@
+== Architecture constraints
+
+Software and services that are allowed to be used have to be accepted by the Atradius Standards Board (ASB).
+Decisions are available in the https://atradius.sharepoint.com/:f:/r/sites/IT_architecture_team/Shared%20Documents/General/ASB%20decisions?csf=1&web=1&e=vBZiav[IT Architecture team Sharepoint] environment.
+
+=== General constraints
+
+**Application implementation**
+[square]
+* Spring Framework 6
+* Java 17
+* Use Event Framework Library
+
+=== Infrastructure constraints
+
+**Cloud platform**
+[square]
+* Microsoft Azure
+* Use managed services
+* Kubernetes for container orchestration
+
+**Cross-cutting constraints**
+[square]
+* Use Shared Components' common docker image (security team's approval)
+* Use Shared Components' Observability library

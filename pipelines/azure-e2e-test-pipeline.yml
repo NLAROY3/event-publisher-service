@@ -1,0 +1,40 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger: none
+
+pool:
+  name: Atradius-Azure-Self-Hosted
+
+parameters:
+  - name: environment
+    default: 'sit'
+    values: [dev,sit]
+  - name: iterations
+    default: '1'
+
+steps:
+  - checkout: self
+    fetchDepth: 0
+    fetchTags: true
+    persistCredentials: true
+    
+  - task: AzureCLI@2
+    displayName: "EPS E2E tests"
+    inputs:
+      azureSubscription: 'atr-sharedcomp-sit-sd-sc'
+      scriptType: 'bash'
+      scriptLocation: inlineScript
+      inlineScript: | 
+        cd src/test/bash
+        bash 3-producer-consumer-path-test.sh ${{ parameters.iterations }} ${{ parameters.environment }}
+
+schedules:
+  - cron: '*/15 * * * *' #Temporally to 15 min just for checking
+  #- cron: '0 0 * * *'
+    displayName: Daily midnight build
+    branches:
+      include:
+        - main

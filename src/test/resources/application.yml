@@ -1,0 +1,15 @@
+springdoc:
+  swagger-ui:
+    path: /
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: event-publisher-group
+    client-id: consumer-event-publisher-service
+
+atradius:
+  igw:
+    publish:
+      topic-name: sc-weu-dev-igw-events

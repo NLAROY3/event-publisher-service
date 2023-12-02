@@ -1,0 +1,3 @@
+== Risks and technical debts
+
+* When error handling isn't implemented correctly either in the API or in the requester calling the API, events could get lost. This will require more in debt experience from all parties involved to make sure errors are handled to the best of the corresponding APIs abilities.

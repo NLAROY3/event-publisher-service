@@ -1,0 +1,72 @@
+trigger: none
+
+parameters:
+  - name: environment
+    default: 'dev'
+    values: [dev,newdev,sit]
+  - name: release
+    displayName: Create a release
+    type: boolean
+    default: false
+  - name: incrementVersion
+    displayName: Increment version
+    type: string
+    default: Minor
+    values: [Major,Minor,Patch]
+
+variables:
+  - name: APPLICATION_NAME
+    value: "event-publisher-service"
+  - name: ALLOW_PUBLISH
+    value: $[ne(variables['Build.Reason'], 'PullRequest')]
+  - ${{if eq(parameters.environment,'dev')}}:
+    - name: AZURE_RESOURCE_MANAGER_SC
+      value: "atr-sharedcomp-dev-sd"
+    - name: AZURE_RESOURCE_GROUP
+      value: "sc-weu-dev-aks-rg"
+    - name: AZURE_KUBERNETES_SERVICES
+      value: "sc-weu-dev-aks"
+  - ${{if eq(parameters.environment,'newdev')}}:
+    - name: AZURE_RESOURCE_MANAGER_SC
+      value: "atr-sharedcomp-dev-scsd-sc"
+    - name: AZURE_RESOURCE_GROUP
+      value: "scsd-weu-dev-aks-rg"
+    - name: AZURE_KUBERNETES_SERVICES
+      value: "scsd-weu-dev-app-aks"
+  - ${{if eq(parameters.environment,'sit')}}:
+    - name: AZURE_RESOURCE_MANAGER_SC
+      value: "atr-sharedcomp-sit-sd-sc"
+    - name: AZURE_RESOURCE_GROUP
+      value: "sc-weu-sit-app-rg"
+    - name: AZURE_KUBERNETES_SERVICES
+      value: "sc-weu-sit-app-aks"
+
+resources:
+  repositories:
+    - repository: azure-pipeline-template
+      type: github
+      name: AtradiusGroup/pipeline-template
+      ref:  refs/tags/v.0.3.0
+      endpoint: AtradiusGroup
+
+stages:
+  - stage: Build
+    jobs:
+      - template: gradle-build-template.yml@azure-pipeline-template
+        parameters:
+          environment : ${{ parameters.environment }}
+          release: ${{ parameters.release }}
+          incrementVersion: ${{ parameters.incrementVersion }}
+          containerPrefix: sc-org
+
+  - stage: Deploy
+    displayName: Deploy to ${{parameters.environment}}
+    condition: and(succeeded(), eq(variables.ALLOW_PUBLISH, 'true'))
+    dependsOn: Build
+    jobs:
+    - template: azure-pipelines-deploy.yml@azure-pipeline-template
+      parameters:
+            environment : ${{ parameters.environment }}
+            aksName : ${{ variables.AZURE_KUBERNETES_SERVICES }}
+            resourceGroupName : ${{ variables.AZURE_RESOURCE_GROUP }}
+            resourceManager: ${{ variables.AZURE_RESOURCE_MANAGER_SC }}
