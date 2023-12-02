@@ -17,14 +17,12 @@ import java.util.concurrent.TimeoutException;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.AppConfigurationEntry;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.KafkaException;
 import org.apache.kafka.common.security.auth.AuthenticateCallbackHandler;
 import org.apache.kafka.common.security.oauthbearer.OAuthBearerToken;
 import org.apache.kafka.common.security.oauthbearer.OAuthBearerTokenCallback;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -112,8 +110,10 @@ public class CustomAuthenticateCallbackHandler implements AuthenticateCallbackHa
     log.info("bootstrapServers: {}", bootstrapServers);
 
     String accessToken =
-        defaultCredential.defaultAzureCredential()
-            .getTokenSync(new TokenRequestContext().addScopes("https://" + bootstrapServers + "/.default"))
+        defaultCredential
+            .defaultAzureCredential()
+            .getTokenSync(
+                new TokenRequestContext().addScopes("https://" + bootstrapServers + "/.default"))
             .getToken();
 
     log.info("accessToken: {}", accessToken);
@@ -121,8 +121,10 @@ public class CustomAuthenticateCallbackHandler implements AuthenticateCallbackHa
     JWT jwt = JWTParser.parse(accessToken);
     JWTClaimsSet claims = jwt.getJWTClaimsSet();
     OffsetDateTime expirationTime =
-        defaultCredential.defaultAzureCredential()
-            .getTokenSync(new TokenRequestContext().addScopes("https://" + bootstrapServers + "/.default"))
+        defaultCredential
+            .defaultAzureCredential()
+            .getTokenSync(
+                new TokenRequestContext().addScopes("https://" + bootstrapServers + "/.default"))
             .getExpiresAt()
             .toInstant()
             .atOffset(ZoneOffset.UTC);
