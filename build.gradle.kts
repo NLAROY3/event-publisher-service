@@ -114,6 +114,10 @@ tasks.jacocoTestReport {
     }
 }
 
+repositories {
+    mavenCentral()
+}
+
 tasks.jar {
     enabled = false
 }
