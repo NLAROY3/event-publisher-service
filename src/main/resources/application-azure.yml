@@ -1,12 +1,6 @@
 spring:
   kafka:
     bootstrap-servers: ${EventHubNamespace}.servicebus.windows.net:9093
-    security:
-      protocol: SASL_SSL
-    properties:
-      sasl.mechanism: OAUTHBEARER
-      sasl.jaas.config: org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;
-      sasl.login.callback.handler.class: com.atradius.sc.eventpublisher.auth.KafkaOAuth2AuthenticateCallbackHandler
 
 atradius:
   igw:
