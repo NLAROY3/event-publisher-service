@@ -58,6 +58,7 @@ dependencies {
     implementation("com.azure:azure-identity:1.11.0")
     implementation("com.azure:azure-identity-broker:1.0.0")
     implementation("com.microsoft.azure:msal4j:1.14.0")
+    implementation("com.azure.spring:spring-cloud-azure-starter")
 
     compileOnly("org.projectlombok:lombok")
 

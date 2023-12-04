@@ -6,7 +6,7 @@ spring:
     properties:
       sasl.mechanism: OAUTHBEARER
       sasl.jaas.config: org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;
-      sasl.login.callback.handler.class: com.atradius.sc.eventpublisher.auth.CustomAuthenticateCallbackHandler
+      sasl.login.callback.handler.class: com.atradius.sc.eventpublisher.auth.KafkaOAuth2AuthenticateCallbackHandler
 
 atradius:
   igw:
@@ -30,7 +30,7 @@ andromeda:
 # Elastic APM
 elastic:
   apm:
-    enabled: false
+    enabled: true
     server-url: https://3932171ec801482a9fbe9924508ba392.apm.uksouth.azure.elastic-cloud.com:443
     service-name: SC-EVENT-PUBLISHER
     #TODO: avoid include tokens in the configuration
