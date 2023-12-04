@@ -1,17 +1,13 @@
 package com.atradius.sc.eventpublisher.auth;
 
-import java.text.ParseException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
 import com.azure.core.credential.AccessToken;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTParser;
-import lombok.Getter;
+import java.text.ParseException;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.apache.kafka.common.errors.SaslAuthenticationException;
 import org.apache.kafka.common.security.oauthbearer.OAuthBearerToken;
 
@@ -45,13 +41,13 @@ public class OAuthBearerTokenImp implements OAuthBearerToken {
 
   @Override
   public Set<String> scope() {
-    // Referring to https://docs.microsoft.com/azure/active-directory/develop/access-tokens#payload-claims, the scp
+    // Referring to
+    // https://docs.microsoft.com/azure/active-directory/develop/access-tokens#payload-claims, the
+    // scp
     // claim is a String which is presented as a space separated list.
     return Optional.ofNullable(claims.getClaim("scp"))
-            .map(s -> Arrays.stream(((String) s)
-                            .split(" "))
-                    .collect(Collectors.toSet()))
-            .orElse(null);
+        .map(s -> Arrays.stream(((String) s).split(" ")).collect(Collectors.toSet()))
+        .orElse(null);
   }
 
   @Override
